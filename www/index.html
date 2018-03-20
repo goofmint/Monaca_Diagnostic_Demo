@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/app.js"></script>
+</head>
+<body>
+<ons-navigator swipeable id="nav" page="index.html"></ons-navigator>
+  <template id="index.html">
+    <ons-page>
+      <ons-list>
+        <ons-list-item modifier="chevron" tappable onclick="pop('geo')">位置情報</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('bluetooth')">Bluetooth</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('wifi')">WiFi</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('camera')">カメラ</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('microphone')">マイク</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('notification')">通知</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('calendar')">カレンダー</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('contact')">アドレス帳</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('reminder')">リマインダー</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('motion')">モーショントラッキング</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('nfc')">NFC</ons-list-item>  
+        <ons-list-item modifier="chevron" tappable onclick="pop('storage')">外部ストレージ</ons-list-item>  
+      </ons-list>
+    </ons-page>
+  </template>
+</body>
+</html>

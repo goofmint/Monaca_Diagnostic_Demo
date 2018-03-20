@@ -1,0 +1,42 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left"><ons-back-button>Back</ons-back-button></div>
+    <div class="center">位置情報</div>
+  </ons-toolbar>
+
+  <ons-list-header>位置情報</ons-list-header>
+  <ons-list-item>
+    <ons-button onclick="enable_geo()">位置情報を有効にする</ons-button>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">精度</div>
+    <div class="center" id="location_mode"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">利用可否</div>
+    <div class="center" id="location_available"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">有効無効</div>
+    <div class="center" id="location_enabled"></div>
+  </ons-list-item>
+
+  <script>
+    document.addEventListener('init', function(event) {
+      const page = event.target;
+      page.onShow = () => {
+        // 位置情報の利用可否
+        cordova.plugins.diagnostic.isLocationAvailable(bol => {
+          document.getElementById('location_available').innerHTML = bol ? '利用可' : '利用不可';
+        })
+        cordova.plugins.diagnostic.isLocationEnabled(bol => {
+          document.getElementById('location_enabled').innerHTML = bol ? '有効' : '無効';
+        })
+      }
+    });
+    const enable_geo = () => {
+      navigator.geolocation.getCurrentPosition(pos => {
+      }, err => alert(err));
+    }
+  </script>
+</ons-page>

@@ -1,0 +1,32 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left"><ons-back-button>Back</ons-back-button></div>
+    <div class="center">外部ストレージ</div>
+  </ons-toolbar>
+  <ons-list-item>
+    <div class="left">利用認可</div>
+    <div class="center" id="storage_authorize"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <ons-button onclick="getDetail()">情報を取得</ons-button>
+  </ons-list-item>
+  <ons-list-item id="storage_info">
+  </ons-list-item>
+  <script>
+    document.addEventListener('init', function(event) {
+      const page = event.target;
+      page.onShow = () => {
+        cordova.plugins.diagnostic.getExternalStorageAuthorizationStatus(bol => {
+          document.getElementById('storage_authorize').innerHTML = bol ? '利用可' : '利用不可';
+        });
+        
+      }
+    });
+    const getDetail = () => {
+      console.log(true);
+      cordova.plugins.diagnostic.getExternalSdCardDetails(info => {
+        document.getElementById('storage_info').innerHTML = JSON.stringify(info);
+      }, err => alert(err))
+    };
+  </script>
+</ons-page>

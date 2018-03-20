@@ -1,0 +1,57 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left"><ons-back-button>Back</ons-back-button></div>
+    <div class="center"></div>
+  </ons-toolbar>
+  <ons-list-header>NFC</ons-list-header>
+  <ons-list-item>
+    <div class="left">状態</div>
+    <div class="center" id="nfc_status"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">有効/無効</div>
+    <div class="center" id="nfc_enabled"></div>
+  </ons-list-item>
+
+  <script>
+    document.addEventListener('init', function(event) {
+      const page = event.target;
+      page.onShow = () => {
+        // NFC
+        if (ons.platform.isAndroid()) {
+          
+          cordova.plugins.diagnostic.isNFCPresent(bol => {
+            cordova.plugins.diagnostic.isNFCAvailable(bol => {
+              cordova.plugins.diagnostic.registerNFCStateChangeHandler(state => {
+                let status = '';
+                switch(state){
+                case cordova.plugins.diagnostic.NFCState.UNKNOWN:
+                  status = 'unknown';
+                  break;
+                case cordova.plugins.diagnostic.NFCState.POWERED_OFF:
+                  status = 'powered off';
+                  break;
+                case cordova.plugins.diagnostic.NFCState.POWERED_ON:
+                  status = 'powered on';
+                  break;
+                case cordova.plugins.diagnostic.NFCState.POWERING_OFF:
+                  status = 'powering off';
+                  break;
+                case cordova.plugins.diagnostic.NFCState.POWERING_ON:
+                  status = 'powering on';
+                  break;
+                }
+                document.getElementById('nfc_status').innerHTML = status;
+              })
+            })
+            cordova.plugins.diagnostic.isNFCAvailable(bol => {
+              document.getElementById('nfc_enabled').innerHTML = bol ? '有効' : '無効';
+            });
+          })
+        } else {
+          ons.notification.alert('NFCはAndroidのみ有効です')
+        }
+      }
+    });
+  </script>
+</ons-page>

@@ -1,0 +1,31 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left"><ons-back-button>Back</ons-back-button></div>
+    <div class="center"></div>
+  </ons-toolbar>
+  <ons-list-header>モーショントラッキング</ons-list-header>
+  <ons-list-item>
+    <ons-button onclick="enable_motion()">モーションを有効にする</ons-button>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">利用可否</div>
+    <div class="center" id="motion_authorized"></div>
+  </ons-list-item>
+
+  <script>
+    document.addEventListener('init', function(event) {
+      const page = event.target;
+      page.onShow = () => {
+        // モーション
+        cordova.plugins.diagnostic.isMotionRequestOutcomeAvailable(bol => {
+          document.getElementById('motion_authorized').innerHTML = bol ? '利用可' : '利用不可';
+        }, (err) => alert(err));
+      }
+    });
+    const enable_motion = () => {
+      cordova.plugins.diagnostic.requestMotionAuthorization(bol => {
+        ons.notification.alert('有効になりました');
+      })
+    }
+  </script>
+</ons-page>

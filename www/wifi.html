@@ -1,0 +1,32 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left"><ons-back-button>Back</ons-back-button></div>
+    <div class="center"></div>
+  </ons-toolbar>
+
+  <ons-list-header>WiFi</ons-list-header>
+  <ons-list-item>
+    <div class="left">利用可否</div>
+    <div class="center" id="wifi_available"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">有効無効</div>
+    <div class="center" id="wifi_enabled"></div>
+  </ons-list-item>  
+
+
+  <script>
+    document.addEventListener('init', function(event) {
+      const page = event.target;
+      page.onShow = () => {
+        cordova.plugins.diagnostic.isWifiAvailable(bol => {
+          document.getElementById('wifi_available').innerHTML = bol ? '利用可' : '利用不可';
+        });
+        cordova.plugins.diagnostic.isWifiEnabled(bol => {
+          document.getElementById('wifi_enabled').innerHTML = bol ? '有効' : '無効';
+        });
+      }
+    });
+  </script>
+</ons-page>
+  

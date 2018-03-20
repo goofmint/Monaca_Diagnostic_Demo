@@ -1,0 +1,33 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left"><ons-back-button>Back</ons-back-button></div>
+    <div class="center"></div>
+  </ons-toolbar>
+
+  <ons-list-header>アドレス帳</ons-list-header>
+  <ons-list-item>
+    <ons-button onclick="enable_contact()">アドレス帳を有効にする</ons-button>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">利用可否</div>
+    <div class="center" id="contact_authorized"></div>
+  </ons-list-item>
+
+
+  <script>
+    document.addEventListener('init', function(event) {
+      const page = event.target;
+      page.onShow = () => {
+        // コンタクト
+        cordova.plugins.diagnostic.isContactsAuthorized(bol => {
+          document.getElementById('contact_authorized').innerHTML = bol ? '利用可' : '利用不可';
+        });
+      }
+    });
+    const enable_contact = () => {
+      cordova.plugins.diagnostic.requestContactsAuthorization(bol => {
+        ons.notification.alert('有効になりました');
+      })
+    }
+  </script>
+</ons-page>

@@ -1,0 +1,67 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left"><ons-back-button>Back</ons-back-button></div>
+    <div class="center">Bluetooth</div>
+  </ons-toolbar>
+
+  <ons-list-header>Bluetooth</ons-list-header>
+  <ons-list-item>
+    <ons-button onclick="enable_bluetooth()">Bluetoothの設定変更を受け取る（iOSのみ）</ons-button>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">状態</div>
+    <div class="center" id="bluetooth_status"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">利用可否</div>
+    <div class="center" id="bluetooth_available"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">Bluetoothサポート</div>
+    <div class="center" id="bluetooth_support"></div>
+  </ons-list-item>
+  <ons-list-item>
+    <div class="left">BLEサポート</div>
+    <div class="center" id="ble_support"></div>
+  </ons-list-item>
+  <script>
+    document.addEventListener('init', function(event) {
+      const page = event.target;
+      page.onShow = () => {
+        const bluetooth_status_change = () => {
+          cordova.plugins.diagnostic.getBluetoothState(bol => {
+            document.getElementById('bluetooth_status').innerHTML = bol ? '有効' : '無効';
+          });
+          cordova.plugins.diagnostic.isBluetoothAvailable(bol => {
+            document.getElementById('bluetooth_available').innerHTML = bol ? '利用可' : '利用不可';
+          });
+          if (ons.platform.isAndroid()) {
+            cordova.plugins.diagnostic.hasBluetoothSupport(bol => {
+              document.getElementById('bluetooth_support').innerHTML = bol ? '対応' : '非対応';
+            });
+            
+            cordova.plugins.diagnostic.hasBluetoothLESupport(bol => {
+              document.getElementById('ble_support').innerHTML = bol ? '対応' : '非対応';
+            });
+          }else{
+            document.getElementById('bluetooth_support').innerHTML = 'iOSでは不可';
+            document.getElementById('ble_support').innerHTML = 'iOSでは不可';
+          }
+        }
+        
+        cordova.plugins.diagnostic.registerBluetoothStateChangeHandler((bol) => {
+          bluetooth_status_change();
+        });
+        bluetooth_status_change();
+      }
+    });
+    
+    const enable_bluetooth = () => {
+      if (ons.platform.isIOS()) {
+        cordova.plugins.diagnostic.requestBluetoothAuthorization(bol => {
+          ons.notification.alert('有効になりました');
+        });
+      }
+    }
+  </script>
+</ons-page>
